@@ -14,6 +14,12 @@ end
 local function exec(desc, cmd)
   assert(cmd, "no command provided")
   local r = pack(osexec(cmd..ditch))
+  if r[r.n] > 255 then
+    local v = r[r.n]
+    r[r.n] = math.floor(v/256)
+    r[r.n+1] = v - r[r.n]*256
+    r.n = r.n + 1
+  end  
   r.desc = desc
   r.cmd = cmd
   table.insert(list,r)
